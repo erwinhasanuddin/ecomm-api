@@ -72,7 +72,7 @@ public class CartItemService {
         if (dbCartItems != null){
             // product is available in cart item
             // add new qty with db qty
-            var sumQtyInCart = dbCartItems.stream().filter(o -> o.getQuantity() > 10).mapToInt(o -> o.getQuantity()).sum();
+            var sumQtyInCart = dbCartItems.stream().filter(o -> o.getQuantity() > 0).mapToInt(o -> o.getQuantity()).sum();
             newQty = newQty + sumQtyInCart;
         }
 
