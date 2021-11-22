@@ -47,6 +47,8 @@ public class CartItemController {
                 return new ResponseEntity<>("Quantity added greater that available stock.", HttpStatus.INTERNAL_SERVER_ERROR);
             case -2:
                 return new ResponseEntity<>("Product not found.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -3:
+                return new ResponseEntity<>("Parameter 'userId' is not provided.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>("CREATED", HttpStatus.CREATED);

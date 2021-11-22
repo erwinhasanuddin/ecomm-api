@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(value = "/api/orderss", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/orders", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrdersController {
 
     private final OrdersService ordersService;
@@ -38,8 +38,15 @@ public class OrdersController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createOrders(@RequestBody @Valid final OrdersDTO ordersDTO) {
-        return new ResponseEntity<>(ordersService.create(ordersDTO), HttpStatus.CREATED);
+    public ResponseEntity<String> createOrders(@RequestBody @Valid final OrdersDTO ordersDTO) {
+        var result = ordersService.create(ordersDTO);
+        switch (result){
+            case -1:
+                return new ResponseEntity<>("Quantity added greater that available stock.", HttpStatus.INTERNAL_SERVER_ERROR);
+            case -2:
+                return new ResponseEntity<>("User doesn't have shopping session.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>("CREATED", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
