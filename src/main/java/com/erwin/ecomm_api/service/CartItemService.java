@@ -55,6 +55,11 @@ public class CartItemService {
         final CartItem cartItem = new CartItem();
         mapToEntity(cartItemDTO, cartItem);
 
+        // check user id
+        if (cartItemDTO.getUserId() == null){
+            // Parameter 'userId' is not provided.
+            return -3;
+        }
         // calculate total price current product
         var productId = cartItem.getProductId();
         var optProduct = productsRepository.findById(productId);
@@ -91,12 +96,7 @@ public class CartItemService {
 
         // Is the shopping session available?
         var shoppingSession = shoppingSessionRepository.findByuserId(cartItemDTO.getUserId());
-        if (shoppingSession != null) {
-            // get existing data
-            var existingTotal = shoppingSession.getTotal();
-            // calculate total
-            total = total.add(existingTotal);
-        } else {
+        if (shoppingSession == null) {
             shoppingSession = new ShoppingSession();
         }
 
